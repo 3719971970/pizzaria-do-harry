@@ -1,140 +1,145 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Central Perk | Cardápio</title>
-
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pizzaria do Harry Potter</title>
+<style>
+body{margin:0;font-family:Arial;background:#FFF8F0;color:#2B1B12}
+.topo{background:#2B1B12;color:#FFD700;padding:20px;text-align:center}
+.topo h1{margin:0}
+.cardapio{max-width:900px;margin:20px auto;padding:15px;display:grid;grid-template-columns:1fr 1fr;gap:15px;padding-bottom:150px}
+.item{background:white;border-radius:15px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1);border:1px solid #eee}
+.item img{width:100%;height:130px;object-fit:cover}
+.info{padding:12px}
+.info h3{margin:0 0 5px 0;font-size:16px}
+.info p{margin:0;color:#666;font-size:13px}
+.preco{color:#D32F2F;font-weight:bold;font-size:18px;margin:8px 0;display:block}
+.info button{background:#2B1B12;color:#FFD700;border:0;width:100%;padding:10px;border-radius:8px;font-weight:bold}
+.carrinho{position:fixed;bottom:0;left:0;right:0;background:white;border-top:3px solid #2B1B12;padding:15px;max-width:900px;margin:auto}
+.wpp{background:#25D366;color:white;width:100%;padding:14px;border:0;border-radius:10px;font-weight:bold;font-size:16px}
+</style>
 </head>
-
 <body>
-    <header class="site-header">
-        <div class="logo">
-            <div class="logo-icon">☕</div>
+<div class="topo">
+<h1>⚡ Pizzaria do Harry Potter 🍕</h1>
+<p>Magia em cada fatia - Pedras de Fogo</p>
+</div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pizzaria do Harry Potter</title>
+<style>
+body{margin:0;font-family:Arial;background:#FFF8F0;color:#2B1B12}
+.topo{background:#2B1B12;color:#FFD700;padding:20px;text-align:center}
+.topo h1{margin:0}
+.cardapio{max-width:900px;margin:20px auto;padding:15px;display:grid;grid-template-columns:1fr 1fr;gap:15px;padding-bottom:150px}
+.item{background:white;border-radius:15px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1);border:1px solid #eee}
+.item img{width:100%;height:130px;object-fit:cover}
+.info{padding:12px}
+.info h3{margin:0 0 5px 0;font-size:16px}
+.info p{margin:0;color:#666;font-size:13px}
+.preco{color:#D32F2F;font-weight:bold;font-size:18px;margin:8px 0;display:block}
+.info button{background:#2B1B12;color:#FFD700;border:0;width:100%;padding:10px;border-radius:8px;font-weight:bold}
+.carrinho{position:fixed;bottom:0;left:0;right:0;background:white;border-top:3px solid #2B1B12;padding:15px;max-width:900px;margin:auto}
+.wpp{background:#25D366;color:white;width:100%;padding:14px;border:0;border-radius:10px;font-weight:bold;font-size:16px}
+</style>
+</head>
+<body>
+<div class="topo">
+<h1>⚡ Pizzaria do Harry Potter 🍕</h1>
+<p>Magia em cada fatia - Pedras de Fogo</p>
+</div>
 
-            <div>
-                <h1>Central Perk</h1>
-                <span>FRIENDS ARE ALWAYS WELCOME</span>
-            </div>
-        </div>
+<div class="cardapio" id="lista"></div>
 
-        <button class="cart-button" id="openCartButton" type="button">
-            🛒 Carrinho (<span id="cartCount">0</span>)
-        </button>
-    </header>
+<div class="carrinho">
+<div id="ped">🛒 Carrinho vazio</div>
+<p><b>Total: R$ <span id="tot">0</span></b></p>
+<button class="wpp" onclick="zap()">Pedir no WhatsApp</button>
+</div>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h2>Central Perk</h2>
+<script>
+let produtos=[
+{n:"Pizza Hogwarts Suprema",d:"Calabresa, queijo e borda mágica",p:49.9,i:"https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500"},
+{n:"Margherita Hermione",d:"Mussarela fresca e manjericão",p:42.9,i:"https://images.unsplash.com/photo-1579751626657-72bc17010498?w=500"},
+{n:"Calabresa do Hagrid",d:"Calabresa artesanal extra",p:45.9,i:"https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500"},
+{n:"Doce de Grifinória",d:"Chocolate, morango e leite ninho",p:52.9,i:"https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500"},
+{n:"Coca-Cola 1L",d:"Geladinha",p:10,i:"https://images.unsplash.com/photo-1624552184280-9e9631bbeee9?w=500"},
+{n:"Poção de Guaraná",d:"Guaraná 1L",p:9,i:"https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=500"}
+];
+let car=[];
+function mostrar(){
+document.getElementById("lista").innerHTML=produtos.map((x,k)=>`
+<div class="item">
+<img src="${x.i}">
+<div class="info">
+<h3>${x.n}</h3>
+<p>${x.d}</p>
+<span class="preco">R$ ${x.p}</span>
+<button onclick="add(${k})">+ Adicionar</button>
+</div>
+</div>`).join("");
+}
+function add(k){car.push(produtos[k]);up();}
+function up(){
+let t=car.reduce((s,a)=>s+a.p,0);
+document.getElementById("tot").innerText=t.toFixed(2);
+document.getElementById("ped").innerText=car.length?car.map(a=>a.n).join(", "):"🛒 Carrinho vazio";
+}
+function zap(){
+if(!car.length){alert("Adicione alguma pizza!");return;}
+let msg="Olá! Quero pedir na Pizzaria do Harry Potter:%0A%0A"+car.map(a=>"- "+a.n+" R$"+a.p).join("%0A")+"%0A%0ATotal: R$"+document.getElementById("tot").innerText;
+window.open("https://wa.me/5583999999999?text="+msg,"_blank");
+}
+mostrar();
+</script>
+</body>
+</html>com q
+<div class="cardapio" id="lista"></div>
 
-            <p>
-                Seu cantinho favorito para café, conversa
-                e momentos inesquecíveis.
-            </p>
+<div class="carrinho">
+<div id="ped">🛒 Carrinho vazio</div>
+<p><b>Total: R$ <span id="tot">0</span></b></p>
+<button class="wpp" onclick="zap()">Pedir no WhatsApp</button>
+</div>
 
-            <span class="open-badge">● Aberto agora</span>
-        </div>
-    </section>
-
-    <main>
-        <section class="section-title">
-            <h2>Nosso Cardápio</h2>
-            <p>Escolha seu favorito e aproveite o momento.</p>
-        </section>
-
-        <div class="menu-tools">
-            <label class="search-box">
-                <span>🔎</span>
-                <input
-                    type="search"
-                    id="searchInput"
-                    placeholder="Buscar produto..."
-                    aria-label="Buscar produto"
-                >
-            </label>
-
-            <div class="filters" aria-label="Categorias do cardápio">
-                <button class="filter-btn active" data-category="todos">
-                    Todos
-                </button>
-
-                <button class="filter-btn" data-category="cafes">
-                    ☕ Cafés
-                </button>
-
-                <button class="filter-btn" data-category="comidas">
-                    🥪 Comidas
-                </button>
-
-                <button class="filter-btn" data-category="doces">
-                    🍰 Doces
-                </button>
-
-                <button class="filter-btn" data-category="bebidas">
-                    🥤 Bebidas
-                </button>
-            </div>
-        </div>
-
-        <div class="menu-grid" id="menuGrid"></div>
-
-        <p class="no-results hidden" id="noResults">
-            Nenhum produto encontrado.
-        </p>
-
-        <section class="about">
-            <h2>Could this BE any more cozy?</h2>
-
-            <p>
-                No Central Perk, você encontra café quentinho,
-                comidas deliciosas e aquele ambiente perfeito
-                para passar horas conversando com seus amigos.
-            </p>
-        </section>
-    </main>
-
-    <footer>
-        <p>
-            ☕ <strong>Central Perk</strong> — Onde todo mundo se encontra.
-        </p>
-
-        <p class="footer-subtitle">
-            Projeto inspirado no universo de Friends.
-        </p>
-    </footer>
-
-    <div class="overlay" id="overlay"></div>
-
-    <aside class="cart" id="cart" aria-label="Carrinho de compras">
-        <div class="cart-header">
-            <h2>Seu Pedido</h2>
-
-            <button
-                class="close-cart"
-                id="closeCartButton"
-                type="button"
-                aria-label="Fechar carrinho"
-            >
-                ×
-            </button>
-        </div>
-
-        <div class="cart-items" id="cartItems"></div>
-
-        <div class="cart-footer">
-            <div class="total">
-                <span>Total</span>
-                <span id="cartTotal">R$ 0,00</span>
-            </div>
-
-            <button class="checkout" id="checkoutButton" type="button">
-                Finalizar pelo WhatsApp
-            </button>
-        </div>
-    </aside>
-
-    <script src="script.js"></script>
+<script>
+let produtos=[
+{n:"Pizza Hogwarts Suprema",d:"Calabresa, queijo e borda mágica",p:49.9,i:"https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500"},
+{n:"Margherita Hermione",d:"Mussarela fresca e manjericão",p:42.9,i:"https://images.unsplash.com/photo-1579751626657-72bc17010498?w=500"},
+{n:"Calabresa do Hagrid",d:"Calabresa artesanal extra",p:45.9,i:"https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500"},
+{n:"Doce de Grifinória",d:"Chocolate, morango e leite ninho",p:52.9,i:"https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500"},
+{n:"Coca-Cola 1L",d:"Geladinha",p:10,i:"https://images.unsplash.com/photo-1624552184280-9e9631bbeee9?w=500"},
+{n:"Poção de Guaraná",d:"Guaraná 1L",p:9,i:"https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=500"}
+];
+let car=[];
+function mostrar(){
+document.getElementById("lista").innerHTML=produtos.map((x,k)=>`
+<div class="item">
+<img src="${x.i}">
+<div class="info">
+<h3>${x.n}</h3>
+<p>${x.d}</p>
+<span class="preco">R$ ${x.p}</span>
+<button onclick="add(${k})">+ Adicionar</button>
+</div>
+</div>`).join("");
+}
+function add(k){car.push(produtos[k]);up();}
+function up(){
+let t=car.reduce((s,a)=>s+a.p,0);
+document.getElementById("tot").innerText=t.toFixed(2);
+document.getElementById("ped").innerText=car.length?car.map(a=>a.n).join(", "):"🛒 Carrinho vazio";
+}
+function zap(){
+if(!car.length){alert("Adicione alguma pizza!");return;}
+let msg="Olá! Quero pedir na Pizzaria do Harry Potter:%0A%0A"+car.map(a=>"- "+a.n+" R$"+a.p).join("%0A")+"%0A%0ATotal: R$"+document.getElementById("tot").innerText;
+window.open("https://wa.me/5583999999999?text="+msg,"_blank");
+}
+mostrar();
+</script>
 </body>
 </html>
